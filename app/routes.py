@@ -11,8 +11,6 @@ def register():
         password = request.form.get("password", "")
         phone = request.form.get("phone", "")
 
-        print(f"Username: {username}, Password: {password}, Phone: {phone}")
-
         # Hash the password
         hashed_password = generate_password_hash(password)
 

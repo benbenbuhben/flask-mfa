@@ -35,3 +35,7 @@ typing-extensions==4.12.2; python_version < '3.11'
 urllib3==2.2.3; python_version >= '3.8'
 werkzeug==3.0.4; python_version >= '3.8'
 yarl==1.16.0; python_version >= '3.9'
+Flask-WTF>=1.0.1
+# WTForms==3.0.1
+email_validator==2.2.0
+python-dotenv==1.0.1

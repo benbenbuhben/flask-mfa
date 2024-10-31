@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register CS504</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+  <div class="wrapper">
+    <header>MFA PIN</header>
+    <form action="#">
+      <!-- Phone -->
+      <div class="field pin">
+        <div class="input-area">
+          <input type="number" id="pin" name="pin" placeholder="000000" pattern="[0-9]{6}" required>
+          <i class="	fas fa-shield-alt"></i>
+          <i class="error error-icon fas fa-exclamation-circle"></i>
+        </div>
+        <div class="error error-txt">Phone can't be blank</div>
+      </div>
+      <!-- Submit form -->
+      <input type="submit" value="Register">
+    </form>
+    <div class="sign-txt">Already have an account? <a href="login.html">Login</a></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -20,11 +20,15 @@ A simple Flask application demonstrating user registration. This will eventually
 
 2. **Set Up Environment Variables**
 
-   Create a `.env` file in the project root directory. The following key/password can be whatever you want them to be.
+   Copy the `.env.template` and change the copied file name to `.env`.  
+   Change the credentials. You can ignore `DB_NAME`
 
    ```
    SECRET_KEY=your_secret_key_here
-   DB_PASSWORD=your_db_password_here
+   DB_USER=your_db_user_here
+   DB_PASSWORD=your_database_password_here
+   DB_HOST=your_db_host_here
+   DB_NAME=your_db_name_here
    ```
 
    *Note:* Add `.env` to your `.gitignore` file to prevent committing sensitive information.
@@ -32,7 +36,7 @@ A simple Flask application demonstrating user registration. This will eventually
 3. **Build and Run with Docker Compose**
 
    ```bash
-   docker-compose up --build
+   docker-compose up -d
    ```
 
    Access the application at `http://localhost:5001/register` (this is the only route for the time being).

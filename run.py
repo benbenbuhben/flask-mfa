@@ -21,5 +21,9 @@ def wait_for_db(max_retries=10):
 if __name__ == "__main__":
     with app.app_context():
         wait_for_db()
-        db.create_all()
+        try:
+            db.create_all()
+            print("Database tables created.")
+        except Exception as e:
+            print(f"Error creating database tables: {e}")
     app.run(debug=True, host="0.0.0.0")

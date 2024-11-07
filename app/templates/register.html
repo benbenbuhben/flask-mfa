@@ -1,6 +1,76 @@
-<form method="POST">
-  Username: <input type="text" name="username" required><br>
-  Password: <input type="password" name="password" required><br>
-  Phone: <input type="text" name="phone" required><br>
-  <input type="submit" value="Register">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register CS504</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    
+    <div class="wrapper">
+        <header>Register Form</header>
+       
+        <form method="POST" action="{{ url_for('register') }}">
+            {{ form.csrf_token }}
+            
+            <div class="field email">
+                <div class="input-area">
+                    {{ form.email(placeholder="Email Address", class="input-field") }}
+                    <i class="icon fas fa-envelope"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+                {% if form.email.errors %}
+                    <div class="error-txt">{{ form.email.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="field phone">
+                <div class="input-area">
+                    {{ form.phone(placeholder="2060000000", class="input-field", pattern="[0-9]{10}", title="Please enter a valid phone number in format: 2065550123") }}
+                    <i class="icon fas fa-phone"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+                {% if form.phone.errors %}
+                    <div class="error-txt">{{ form.phone.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="field password">
+                <div class="input-area">
+                    {{ form.password(placeholder="Password (minimum 8 characters)", class="input-field") }}
+                    <i class="icon fas fa-lock"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+                {% if form.password.errors %}
+                    <div class="error-txt">{{ form.password.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            <div class="field confirm-password">
+                <div class="input-area">
+                    {{ form.confirm_password(placeholder="Confirm Password", class="input-field") }}
+                    <i class="icon fas fa-lock"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+                {% if form.confirm_password.errors %}
+                    <div class="error-txt">{{ form.confirm_password.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            {{ form.submit(value="Register", class="submit-btn") }}
+        </form>
+        <div class="sign-txt">Already have an account? <a href="{{ url_for('login') }}">Login</a></div>
+    </div>
+</body>
+</html>

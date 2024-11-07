@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MFA Verification - CS504</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>MFA Verification</header>
+      <!-- Display flash messages from Flask -->
+      {% with messages = get_flashed_messages() %} 
+      {% if messages %} 
+      {% for message in messages %}
+      <div class="flash-message">{{ message }}</div>
+      {% endfor %} 
+      {% endif %} 
+      {% endwith %}
+
+      <!-- Form with POST method and proper Flask route -->
+      <form method="POST" action="{{ url_for('mfa') }}">
+        <!-- CSRF Token for security -->
+        {{ form.csrf_token }}
+
+        <!-- MFA Code field -->
+        <div class="field mfa">
+          <div class="input-area">
+            <input type="text" maxlength="1" name="mfa1" required />
+            <input type="text" maxlength="1" name="mfa2" required />
+            <input type="text" maxlength="1" name="mfa3" required />
+            <input type="text" maxlength="1" name="mfa4" required />
+            <input type="text" maxlength="1" name="mfa5" required />
+            <input type="text" maxlength="1" name="mfa6" required />
+          </div>
+          {% if error and 'mfa' in error %}
+          <div class="error-txt">{{ error.mfa }}</div>
+          {% endif %}
+        </div>
+
+        <input type="submit" value="Verify" />
+      </form>
+      <div class="sign-txt"><a href="{{ url_for('login') }}">Back to Login</a></div>
+    </div>
+  </body>
+</html>

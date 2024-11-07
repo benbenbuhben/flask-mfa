@@ -1,34 +1,48 @@
-version: '3'  # Specifies the Docker Compose file format version
+version: '3.8' 
 
 services:
   web:
-    build: .  # Builds the Docker image using the Dockerfile in the current directory
+    build: .  
     volumes:
-      - .:/app  # Mounts the current directory into the container at /app (this enables hot-reloading)
+      - mfa:/app  
     environment:
-      - PYTHONPATH=/app  # Sets the Python module search path inside the container
-      - SECRET_KEY=${SECRET_KEY}  # Injects SECRET_KEY from the .env file into the container
-      - DB_PASSWORD=${DB_PASSWORD}  # Injects DB_PASSWORD from the .env file into the container
+      - PYTHONPATH=/app  
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_USER=${DB_USER}  
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
     ports:
-      - "5001:5000"  # Maps port 5000 (flask default port) in the container to port 5001 on the host machine
+      - "5001:5000"
     depends_on:
-      - db  # Ensures the 'db' service is started before the 'web' service
+      - db
+    networks:
+      - mfa_network
+
   db:
-    image: mysql:5.7  # MySQL 5.7 Docker image
+    image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}  # Sets the MySQL root password from the .env file
-      - MYSQL_DATABASE=mfa_demo  # Creates a database named 'mfa_demo' on startup
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=mfa_demo
     ports:
-      - "3306:3306"  # Exposes MySQL port 3306 to the host machine
+      - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql  # Persists database data in a named volume
+      - db_data:/var/lib/mysql
+    networks:
+      - mfa_network
+      
   adminer:
-    image: adminer  # Uses Adminer for database management
-    restart: always  # Always restarts the container if it stops
+    image: adminer
+    restart: always
     ports:
-      - "8080:8080"  # Exposes Adminer on port 8080
+      - "8080:8080" 
     depends_on:
-      - db  # Ensures the 'db' service is started before the 'adminer' service
+      - db 
+    networks:
+      - mfa_network
 
 volumes:
-  db_data:  # Defines a named volume for persisting database data
+  db_data: 
+  mfa:
+
+networks:
+  mfa_network:

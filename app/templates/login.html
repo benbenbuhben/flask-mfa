@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login CS504</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>Login Form</header>
+      <!-- Display flash messages from Flask -->
+      {% with messages = get_flashed_messages() %} 
+      {% if messages %} 
+      {% for message in messages %}
+      <div class="flash-message">{{ message }}</div>
+      {% endfor %} 
+      {% endif %} 
+      {% endwith %}
+
+      <!-- Form with POST method and proper Flask route -->
+      <form method="POST" action="{{ url_for('login') }}">
+        <!-- CSRF Token for security -->
+        {{ form.csrf_token }}
+
+        <!-- Email field -->
+        <div class="field email">
+          <div class="input-area">
+            <input type="email" id="email" name="email" placeholder="Email Address" value="{{ request.form.email }}" required />
+            <i class="icon fas fa-envelope"></i>
+          </div>
+          {% if error and 'email' in error %}
+          <div class="error-txt">{{ error.email }}</div>
+          {% endif %}
+        </div>
+
+
+        <!-- Password field -->
+        <div class="field password">
+          <div class="input-area">
+            <input type="password" id="password" name="password" placeholder="Password (minimum 8 characters)" minlength="8" required />
+            <i class="icon fas fa-lock"></i>
+          </div>
+          {% if error and 'password' in error %}
+          <div class="error-txt">{{ error.password }}</div>
+          {% endif %}
+        </div>
+
+        <input type="submit" value="Login" />
+      </form>
+      <div class="sign-txt">Don't have an account? <a href="{{ url_for('register') }}">Sign up</a></div>
+    </div>
+  </body>
+</html>

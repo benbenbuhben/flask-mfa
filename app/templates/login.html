@@ -35,25 +35,6 @@
           {% endif %}
         </div>
 
-        <!-- Phone field -->
-        <div class="field phone">
-          <div class="input-area">
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              placeholder="Phone Number"
-              value="{{ request.form.phone }}"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              title="Please enter a valid 10-digit phone number"
-              required
-            />
-            <i class="icon fas fa-phone"></i>
-          </div>
-          {% if error and 'phone' in error %}
-          <div class="error-txt">{{ error.phone }}</div>
-          {% endif %}
-        </div>
 
         <!-- Password field -->
         <div class="field password">

@@ -8,165 +8,69 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    
     <div class="wrapper">
         <header>Register Form</header>
        
         <form method="POST" action="{{ url_for('register') }}">
-            <!-- CSRF Token for security -->
             {{ form.csrf_token }}
             
-            <!-- Email field -->
             <div class="field email">
                 <div class="input-area">
-                    <input type="email" 
-                           id="email" 
-                           name="email" 
-                           placeholder="Email Address"
-                           value="{{ request.form.email }}"
-                           required>
+                    {{ form.email(placeholder="Email Address", class="input-field") }}
                     <i class="icon fas fa-envelope"></i>
                     <i class="error error-icon fas fa-exclamation-circle"></i>
                 </div>
-                {% if error and 'email' in error %}
-                    <div class="error-txt">{{ error.email }}</div>
+                {% if form.email.errors %}
+                    <div class="error-txt">{{ form.email.errors[0] }}</div>
                 {% endif %}
             </div>
 
-            <!-- Phone field -->
             <div class="field phone">
                 <div class="input-area">
-                    <input type="tel" 
-                           id="phone" 
-                           name="phone" 
-                           placeholder="206-000-0000"
-                           value="{{ request.form.phone }}"
-                           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                           title="Please enter a valid phone number in format: 206-555-0123"
-                           required>
+                    {{ form.phone(placeholder="2060000000", class="input-field", pattern="[0-9]{10}", title="Please enter a valid phone number in format: 2065550123") }}
                     <i class="icon fas fa-phone"></i>
                     <i class="error error-icon fas fa-exclamation-circle"></i>
                 </div>
-                {% if error and 'phone' in error %}
-                    <div class="error-txt">{{ error.phone }}</div>
+                {% if form.phone.errors %}
+                    <div class="error-txt">{{ form.phone.errors[0] }}</div>
                 {% endif %}
             </div>
 
-            <!-- Password field -->
             <div class="field password">
                 <div class="input-area">
-                    <input type="password" 
-                           id="password" 
-                           name="password" 
-                           placeholder="Password (minimum 8 characters)"
-                           minlength="8"
-                           required>
+                    {{ form.password(placeholder="Password (minimum 8 characters)", class="input-field") }}
                     <i class="icon fas fa-lock"></i>
                     <i class="error error-icon fas fa-exclamation-circle"></i>
                 </div>
-                {% if error and 'password' in error %}
-                    <div class="error-txt">{{ error.password }}</div>
+                {% if form.password.errors %}
+                    <div class="error-txt">{{ form.password.errors[0] }}</div>
                 {% endif %}
             </div>
 
-            <!-- Confirm Password field -->
             <div class="field confirm-password">
                 <div class="input-area">
-                    <input type="password" 
-                           id="confirm_password" 
-                           name="confirm_password" 
-                           placeholder="Confirm Password"
-                           minlength="8"
-                           required>
+                    {{ form.confirm_password(placeholder="Confirm Password", class="input-field") }}
                     <i class="icon fas fa-lock"></i>
                     <i class="error error-icon fas fa-exclamation-circle"></i>
                 </div>
-                {% if error and 'confirm_password' in error %}
-                    <div class="error-txt">{{ error.confirm_password }}</div>
+                {% if form.confirm_password.errors %}
+                    <div class="error-txt">{{ form.confirm_password.errors[0] }}</div>
                 {% endif %}
             </div>
 
-            <input type="submit" value="Register">
+            {{ form.submit(value="Register", class="submit-btn") }}
         </form>
         <div class="sign-txt">Already have an account? <a href="{{ url_for('login') }}">Login</a></div>
     </div>
-
-    <script>
-        const form = document.querySelector('form');
-        const emailInput = document.getElementById('email');
-        const phoneInput = document.getElementById('phone');
-        const passwordInput = document.getElementById('password');
-        const confirmPasswordInput = document.getElementById('confirm_password');
-
-        // Email validation
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        // Phone validation
-        function validatePhone(phone) {
-            const re = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
-            return re.test(phone);
-        }
-
-        // Format phone number as user types
-        phoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '').substring(0,10);
-            let formatted = '';
-            
-            if (value.length > 0) {
-                formatted += value.substring(0,3);
-                if (value.length > 3) {
-                    formatted += '-' + value.substring(3,6);
-                }
-                if (value.length > 6) {
-                    formatted += '-' + value.substring(6);
-                }
-            }
-            
-            e.target.value = formatted;
-        });
-
-        // Client-side form validation
-        form.addEventListener('submit', function(e) {
-            let hasError = false;
-            
-            // Validate email
-            if (!validateEmail(emailInput.value)) {
-                document.querySelector('.email').classList.add('error');
-                hasError = true;
-            } else {
-                document.querySelector('.email').classList.remove('error');
-            }
-            
-            // Validate phone
-            if (!validatePhone(phoneInput.value)) {
-                document.querySelector('.phone').classList.add('error');
-                hasError = true;
-            } else {
-                document.querySelector('.phone').classList.remove('error');
-            }
-            
-            // Validate password
-            if (passwordInput.value.length < 8) {
-                document.querySelector('.password').classList.add('error');
-                hasError = true;
-            } else {
-                document.querySelector('.password').classList.remove('error');
-            }
-            
-            // Validate password confirmation
-            if (passwordInput.value !== confirmPasswordInput.value) {
-                document.querySelector('.confirm-password').classList.add('error');
-                hasError = true;
-            } else {
-                document.querySelector('.confirm-password').classList.remove('error');
-            }
-            
-            if (hasError) {
-                e.preventDefault();
-            }
-        });
-    </script>
 </body>
 </html>

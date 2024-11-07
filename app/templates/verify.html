@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Verification - CS504</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <header>Phone Verification</header>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('verify') }}">
+            {{ form.csrf_token }}
+
+            <div class="field verification-code">
+                <div class="input-area">
+                    {{ form.verification_code(placeholder="Enter 6-digit code", class="input-field", maxlength="6", pattern="[0-9]{6}") }}
+                    <i class="icon fas fa-key"></i>
+                    <i class="error error-icon fas fa-exclamation-circle"></i>
+                </div>
+                {% if form.verification_code.errors %}
+                    <div class="error-txt">{{ form.verification_code.errors[0] }}</div>
+                {% endif %}
+            </div>
+
+            {{ form.submit(value="Verify", class="submit-btn") }}
+        </form>
+        <div class="sign-txt"><a href="{{ url_for('register') }}">Back to Register</a></div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const verificationInput = document.querySelector('input[name="verification_code"]');
+        
+        // Only allow numbers
+        verificationInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    });
+    </script>
+</body>
+</html>

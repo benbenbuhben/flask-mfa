@@ -63,7 +63,7 @@ form input{
   width: 100%;
   height: 100%;
   outline: none;
-  padding: 0 45px;
+  padding: 0 15px;
   font-size: 18px;
   background: none;
   caret-color: var(--orange);
@@ -144,4 +144,29 @@ form input[type="submit"]{
 }
 form input[type="submit"]:hover{
   background: #811a1e;
+}
+
+form .field.mfa {
+  display: flex;
+  justify-content: space-between;
+}
+
+form .field.mfa .input-area input {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px solid #bfbfbf;
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  caret-color: var(--orange);
+  transition: all 0.2s ease;
+}
+
+form .field.mfa input:focus {
+  border-color: var(--orange);
+}
+
+form .field.mfa input:focus ~ .icon {
+  color: var(--orange);
 }

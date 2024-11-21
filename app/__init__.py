@@ -14,19 +14,8 @@ db.init_app(app)
 
 # set up twillio
 twilio_client = Client(Config.TWILIO_ACCOUNT_SID, Config.TWILIO_AUTH_TOKEN)
+twilio_content_sid = Config.TWILIO_CONTENT_SID
 twilio_phone = Config.TWILIO_PHONE
-
-twilio_service_sid = Config.TWILIO_SERVICE_SID  # This should be in your config if you already have a service SID
-
-# If you don't have a pre-created Verify service, you can create one dynamically (optional)
-if not twilio_service_sid:
-    service = twilio_client.verify.services.create(
-        friendly_name='Your Service Name'
-    )
-    twilio_service_sid = service.sid
-    app.config['TWILIO_SERVICE_SID'] = twilio_service_sid 
-
-
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 

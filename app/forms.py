@@ -12,13 +12,13 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    phone = StringField('Phone', validators=[DataRequired(), Length(min=10, max=10)])  # Assuming format 2065550103
+    phone = StringField('Phone', validators=[DataRequired(), Length(min=12, max=13)])  # Assuming format +12065550103
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
 class AuthenticationForm(FlaskForm):
-    pin = PasswordField('Code', validators=[DataRequired(), Length(min=6, max=6)])
+    mfa_code = PasswordField('Code', validators=[DataRequired(), Length(min=6, max=6)])
     submit = SubmitField("Verify")
 
 class VerificationForm(FlaskForm):

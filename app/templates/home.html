@@ -1,11 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Page</title>
-</head>
-<body>
-    <h1>Hello</h1>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - CS504</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>Welcome to Your Dashboard</header>
+
+      <div class="content">
+        <h2>Welcome</h2>
+
+        <div class="buttons">
+          <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

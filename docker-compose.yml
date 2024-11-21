@@ -3,8 +3,7 @@ version: '3.8'
 services:
   web:
     build: .  
-    volumes:
-      - mfa:/app  
+    # image: flask_mfa_web:1.0
     environment:
       - PYTHONPATH=/app  
       - SECRET_KEY=${SECRET_KEY}
@@ -13,8 +12,8 @@ services:
       - DB_HOST=${DB_HOST}
       - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
       - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
-      - TWILIO_SERVICE_SID=${TWILIO_SERVICE_SID}
       - TWILIO_PHONE=${TWILIO_PHONE}
+      - TWILIO_CONTENT_SID=${TWILIO_CONTENT_SID}
     ports:
       - "5001:5000"
     depends_on:
@@ -46,7 +45,6 @@ services:
 
 volumes:
   db_data: 
-  mfa:
 
 networks:
   mfa_network:

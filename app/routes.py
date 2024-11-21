@@ -1,8 +1,8 @@
 import re
 import random
 
-from flask import render_template, flash, redirect, url_for, session, request
-from app import app, db, twilio_client, twilio_phone, twilio_service_sid, logger
+from flask import render_template, flash, redirect, url_for, session
+from app import app, db, twilio_client, twilio_phone, twilio_content_sid
 from datetime import datetime, timedelta
 
 from .forms import LoginForm, RegisterForm, AuthenticationForm, VerificationForm
@@ -15,8 +15,8 @@ def index():
 
 @app.route('/home')
 def home():
-    email = session.get('email')
-    return render_template('home.html', email=email)
+    id = session.get('id')
+    return render_template('home.html', id=id)
 
 
 #-----------------------REGISTER-------------------------------
@@ -71,12 +71,12 @@ def login():
             db.session.add(temp_code)
             db.session.commit()
 
-            print(twilio_phone, user.phone)
             # Send the message to phone
             message = twilio_client.messages.create(
-                body=f"Your MFA code is: {mfa_code}",
                 from_=twilio_phone,
-                to=user.phone
+                content_sid = twilio_content_sid,
+                content_variables='{"1":"' + mfa_code + '"}',
+                to=f"whatsapp:{user.phone}"
             )
             print(message.body)
 
@@ -94,7 +94,7 @@ def mfa():
     form = AuthenticationForm()
     
     if form.validate_on_submit():
-        pin = form.pin.data  # Get the pin from the form
+        pin = form.mfa_code.data  # Get the pin from the form
         user_id = session.get('user_id')  # Get the user_id from the session
 
         if not user_id:
@@ -103,13 +103,28 @@ def mfa():
 
         # Fetch the most recent temporary code for this user
         temp_code = TemporaryCode.query.filter_by(user_id=user_id).order_by(TemporaryCode.created_at.desc()).first()
-
+        print(f"Temp code {temp_code.code} & pin = {pin}")
         # Check if the pin matches and is not expired
         if temp_code and temp_code.code == pin and temp_code.expires_at > datetime.utcnow():
-            flash('MFA successful!', 'success')
+            # flash('MFA successful!', 'success')
             session['authenticated'] = True  # Mark the user as authenticated
-            return redirect(url_for('dashboard'))  # Redirect to the dashboard or another protected page
+            print("success")
+            return redirect(url_for('home'))  # Redirect to the dashboard or another protected page
+
         else:
+            print("failed")
             flash('Invalid or expired code. Please try again.', 'danger')
 
     return render_template('mfa.html', form=form)
+
+@app.route('/logout')
+def logout():
+    # Clear the session to log the user out
+    session.pop('user_id', None)  # Remove the user ID from the session
+    session.pop('authenticated', None)  # Clear any authentication flags
+
+    # Optionally, add a flash message to confirm the logout
+    flash('You have been logged out successfully.', 'success')
+
+    # Redirect the user to the login page
+    return redirect(url_for('login'))

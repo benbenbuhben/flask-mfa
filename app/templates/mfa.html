@@ -11,13 +11,9 @@
     <div class="wrapper">
       <header>MFA Verification</header>
       <!-- Display flash messages from Flask -->
-      {% with messages = get_flashed_messages() %} 
-      {% if messages %} 
-      {% for message in messages %}
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
       <div class="flash-message">{{ message }}</div>
-      {% endfor %} 
-      {% endif %} 
-      {% endwith %}
+      {% endfor %} {% endif %} {% endwith %}
 
       <!-- Form with POST method and proper Flask route -->
       <form method="POST" action="{{ url_for('mfa') }}">
@@ -25,19 +21,12 @@
         {{ form.csrf_token }}
 
         <!-- MFA Code field -->
-        <div class="field mfa">
-          <div class="input-area">
-            <input type="text" maxlength="1" name="mfa1" required />
-            <input type="text" maxlength="1" name="mfa2" required />
-            <input type="text" maxlength="1" name="mfa3" required />
-            <input type="text" maxlength="1" name="mfa4" required />
-            <input type="text" maxlength="1" name="mfa5" required />
-            <input type="text" maxlength="1" name="mfa6" required />
-          </div>
-          {% if error and 'mfa' in error %}
-          <div class="error-txt">{{ error.mfa }}</div>
-          {% endif %}
+        <div class="input-area">
+          <input type="text" name="mfa_code" pattern="\d{6}" maxlength="6" required title="Please enter a 6-digit code." />
         </div>
+        {% if error and 'mfa' in error %}
+        <div class="error-txt">{{ error.mfa }}</div>
+        {% endif %}
 
         <input type="submit" value="Verify" />
       </form>

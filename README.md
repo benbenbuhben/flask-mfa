@@ -29,6 +29,11 @@ A simple Flask application demonstrating user registration. This will eventually
    DB_PASSWORD=your_database_password_here
    DB_HOST=your_db_host_here
    DB_NAME=your_db_name_here
+   TWILIO_ACCOUNT_SID=
+   TWILIO_AUTH_TOKEN=
+   TWILIO_SERVICE_SID=
+   TWILIO_PHONE=
+   TWILIO_CONTENT_SID=
    ```
 
    *Note:* Add `.env` to your `.gitignore` file to prevent committing sensitive information.

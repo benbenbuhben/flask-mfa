@@ -89,3 +89,39 @@ pipenv lock -r > requirements.txt
 ```
 
 This exports the locked dependencies from `Pipfile.lock` to `requirements.txt`.
+
+## Set up test
+```
+pytest -v test_routes.py
+
+```
+Generate code coverage report:
+```
+pytest --cov=. --cov-report=xml --cov-report=term
+```
+## Miscellanous
+Scan code with SonarQube:
+Prerequisite:
+ Python >= 3.8  
+
+1. Create a SonarQube Server docker container
+```
+docker volume create sonar
+docker run --name sonarqube-custom -p 9000:9000 -v sonar:/opt/sonarqube/data sonarqube:10.6-community
+```
+Credentials by default is admin/admin
+
+2. Install Sonar Scanner
+```
+pip install pysonar-scanner
+```
+3. Set up environment variable:
+In your terminal
+```
+export SONAR_HOST_URL="http://localhost:9000"
+pysonar-scanner \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.token=sqp_84e78faa62287bf2a58dac0063ca48b370fdbc29
+```
+
+4. Export variable

@@ -10,12 +10,17 @@
   <body>
     <div class="wrapper">
       <header>Welcome to Your Dashboard</header>
-
+      <!-- Display flash messages from Flask -->
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+      <div class="flash-message">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
       <div class="content">
         <h2>Welcome</h2>
 
         <div class="buttons">
-          <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+          <a href="{{ url_for('main.change_phone') }}" class="btn">Change Phone Number</a>
+          <a href="{{ url_for('main.change_password') }}" class="btn">Change Password</a>
+          <a href="{{ url_for('main.logout') }}" class="btn">Logout</a>
         </div>
       </div>
     </div>

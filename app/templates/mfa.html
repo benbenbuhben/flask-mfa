@@ -16,9 +16,10 @@
       {% endfor %} {% endif %} {% endwith %}
 
       <!-- Form with POST method and proper Flask route -->
-      <form method="POST" action="{{ url_for('mfa') }}">
+      <form method="POST" action="{{ url_for('main.mfa') }}">
         <!-- CSRF Token for security -->
-        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        
 
         <!-- MFA Code field -->
         <div class="input-area">
@@ -30,7 +31,7 @@
 
         <input type="submit" value="Verify" />
       </form>
-      <div class="sign-txt"><a href="{{ url_for('login') }}">Back to Login</a></div>
+      <div class="sign-txt"><a href="{{ url_for('main.login') }}">Back to Login</a></div>
     </div>
   </body>
 </html>

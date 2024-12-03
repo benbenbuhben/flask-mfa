@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   web:
-    build: .  
-    # image: flask_mfa_web:1.0
+    # build: .  
+    image: flask_mfa_web:1.0
     environment:
       - PYTHONPATH=/app  
       - SECRET_KEY=${SECRET_KEY}

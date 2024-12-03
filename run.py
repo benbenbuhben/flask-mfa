@@ -1,4 +1,4 @@
-from app import app, db
+from app import create_app, db
 import time
 from sqlalchemy.exc import OperationalError
 from sqlalchemy import text
@@ -19,6 +19,7 @@ def wait_for_db(max_retries=10):
 
 
 if __name__ == "__main__":
+    app = create_app()
     with app.app_context():
         wait_for_db()
         try:

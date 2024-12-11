@@ -21,8 +21,9 @@
         {% endif %}
         {% endwith %}
 
-        <form method="POST" action="{{ url_for('verify') }}">
-            {{ form.csrf_token }}
+        <form method="POST" action="{{ url_for('main.verify') }}">
+            {{ form.hidden_tag() }}
+
 
             <div class="field verification-code">
                 <div class="input-area">
@@ -37,7 +38,7 @@
 
             {{ form.submit(value="Verify", class="submit-btn") }}
         </form>
-        <div class="sign-txt"><a href="{{ url_for('register') }}">Back to Register</a></div>
+        <div class="sign-txt"><a href="{{ url_for('main.register') }}">Back to Register</a></div>
     </div>
 
     <script>
@@ -46,7 +47,7 @@
         
         // Only allow numbers
         verificationInput.addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
+            this.value = this.value.replace(/^\d+$/g, '');
         });
     });
     </script>

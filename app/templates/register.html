@@ -21,8 +21,8 @@
     <div class="wrapper">
         <header>Register Form</header>
        
-        <form method="POST" action="{{ url_for('register') }}">
-            {{ form.csrf_token }}
+        <form method="POST" action="{{ url_for('main.register') }}">
+            {{ form.hidden_tag() }}
             
             <div class="field email">
                 <div class="input-area">
@@ -36,8 +36,8 @@
             </div>
 
             <div class="field phone">
-                <div class="input-area">
-                    {{ form.phone(placeholder="2060000000", class="input-field", pattern="[0-9]{10}", title="Please enter a valid phone number in format: 2065550123") }}
+    <div class="input-area">
+                    {{ form.phone(placeholder="+12060000000", class="input-field", pattern="\+[0-9]{11,12}", title="Please enter a valid phone number in format: 2065550123") }}
                     <i class="icon fas fa-phone"></i>
                     <i class="error error-icon fas fa-exclamation-circle"></i>
                 </div>
@@ -45,6 +45,7 @@
                     <div class="error-txt">{{ form.phone.errors[0] }}</div>
                 {% endif %}
             </div>
+
 
             <div class="field password">
                 <div class="input-area">
@@ -70,7 +71,7 @@
 
             {{ form.submit(value="Register", class="submit-btn") }}
         </form>
-        <div class="sign-txt">Already have an account? <a href="{{ url_for('login') }}">Login</a></div>
+        <div class="sign-txt">Already have an account? <a href="{{ url_for('main.login') }}">Login</a></div>
     </div>
 </body>
 </html>

@@ -11,19 +11,14 @@
     <div class="wrapper">
       <header>Login Form</header>
       <!-- Display flash messages from Flask -->
-      {% with messages = get_flashed_messages() %} 
-      {% if messages %} 
-      {% for message in messages %}
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
       <div class="flash-message">{{ message }}</div>
-      {% endfor %} 
-      {% endif %} 
-      {% endwith %}
+      {% endfor %} {% endif %} {% endwith %}
 
       <!-- Form with POST method and proper Flask route -->
-      <form method="POST" action="{{ url_for('login') }}">
+      <form method="POST" action="{{ url_for('main.login') }}">
         <!-- CSRF Token for security -->
-        {{ form.csrf_token }}
-
+        {{ form.hidden_tag() }}
         <!-- Email field -->
         <div class="field email">
           <div class="input-area">
@@ -34,7 +29,6 @@
           <div class="error-txt">{{ error.email }}</div>
           {% endif %}
         </div>
-
 
         <!-- Password field -->
         <div class="field password">
@@ -49,7 +43,7 @@
 
         <input type="submit" value="Login" />
       </form>
-      <div class="sign-txt">Don't have an account? <a href="{{ url_for('register') }}">Sign up</a></div>
+      <div class="sign-txt">Don't have an account? <a href="{{ url_for('main.register') }}">Sign up</a></div>
     </div>
   </body>
 </html>

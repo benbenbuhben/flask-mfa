@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Change Phone Number - CS504</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    <div class="wrapper">
+      <header>Change Phone Number</header>
+
+      <div class="content">
+        <form action="{{ url_for('main.change_phone') }}" method="POST">
+          {{ form.hidden_tag() }}  <!-- To include CSRF token -->
+          <label for="phone">New Phone Number:</label>
+          {{ form.phone(class="form-control") }}  <!-- Dynamically render form input -->
+          {% if form.phone.errors %}
+            <div class="error">
+              {% for error in form.phone.errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+          <button type="submit" class="btn">Update Phone Number</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

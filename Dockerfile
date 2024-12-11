@@ -32,8 +32,8 @@ COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/pytho
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy application files
-COPY app .
 COPY run.py .
+COPY app ./app
 
 # Expose port and run the application
 EXPOSE 5000

@@ -18,6 +18,7 @@ twilio_phone = None
 # Set up logging (initialization will happen in create_app)
 logger = None
 
+
 def create_app(config_class=Config):
     """Create and configure the Flask app."""
     app = Flask(__name__)
@@ -31,12 +32,16 @@ def create_app(config_class=Config):
 
     # Set up Twilio client
     global twilio_client, twilio_content_sid, twilio_phone
-    twilio_client = Client(config_class.TWILIO_ACCOUNT_SID, config_class.TWILIO_AUTH_TOKEN)
+    twilio_client = Client(
+        config_class.TWILIO_ACCOUNT_SID, config_class.TWILIO_AUTH_TOKEN
+    )
     twilio_content_sid = config_class.TWILIO_CONTENT_SID
     twilio_phone = config_class.TWILIO_PHONE
 
     # Set up logging
-    logging.basicConfig(level=logging.WARNING, format='%(asctime)s %(levelname)s: %(message)s')
+    logging.basicConfig(
+        level=logging.WARNING, format="%(asctime)s %(levelname)s: %(message)s"
+    )
     global logger
     logger = logging.getLogger(__name__)
 
@@ -47,15 +52,17 @@ def create_app(config_class=Config):
 
     # Import and register routes blueprint to avoid circular imports
     from .routes import main_bp
+
     app.register_blueprint(main_bp)
 
     return app
+
 
 def create_delete_event(app):
     """Create MySQL Event to delete expired codes."""
     sql = """
     CREATE EVENT IF NOT EXISTS delete_expired_codes
-    ON SCHEDULE EVERY 5 MINUTE
+    ON SCHEDULE EVERY 1 MINUTE
     DO 
     DELETE FROM temporary_codes WHERE expires_at < NOW();
     """

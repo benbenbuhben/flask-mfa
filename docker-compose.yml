@@ -1,13 +1,13 @@
-version: '3.8' 
+version: '3.8'
 
 services:
   web:
-    # build: .  
+    build: .
     image: flask_mfa_web:1.0
     environment:
-      - PYTHONPATH=/app  
+      - PYTHONPATH=/app
       - SECRET_KEY=${SECRET_KEY}
-      - DB_USER=${DB_USER}  
+      - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=${DB_HOST}
       - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
@@ -32,19 +32,40 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - mfa_network
-      
+
   adminer:
     image: adminer
     restart: always
     ports:
-      - "8080:8080" 
+      - "8080:8080"
     depends_on:
-      - db 
+      - db
     networks:
       - mfa_network
 
+  flask-mfa-test:
+    build:
+      context: .
+      dockerfile: test.Dockerfile
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - SESSION_TYPE=filesystem
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=db
+      - DB_NAME=mfa_demo
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_PHONE=${TWILIO_PHONE}
+      - TWILIO_CONTENT_SID=${TWILIO_CONTENT_SID}
+    depends_on:
+      - db
+    networks:
+      - mfa_network
+    command: pytest -x test_routes.py
+
 volumes:
-  db_data: 
+  db_data:
 
 networks:
   mfa_network:

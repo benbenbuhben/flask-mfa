@@ -8,6 +8,12 @@ flask = "*"
 flask-sqlalchemy = "*"
 pymysql = "*"
 twilio = "*"
+pytest = "*"
+python-dotenv = "*"
+flask-wtf = "*"
+beautifulsoup4 = "*"
 
 [requires]
 python_version = "3.10"
+
+[dev-packages]
